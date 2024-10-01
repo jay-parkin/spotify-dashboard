@@ -43,8 +43,6 @@
 
 ## FrontEnd UI Frameworks
 
-## FrontEnd UI Frameworks
-
 - [Chakra UI](https://v2.chakra-ui.com/)
 - [Material UI](https://mui.com/)
 - [UI ShadCN](https://ui.shadcn.com/)
