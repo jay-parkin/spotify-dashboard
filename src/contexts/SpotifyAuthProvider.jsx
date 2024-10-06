@@ -14,6 +14,8 @@ export function useSpotifyAuthContext() {
   return useContext(SpotifyAuthContext);
 }
 
+// Client ID from app configured in Spotify developer dashboard
+// https://developer.spotify.com/dashboard
 const clientId = "7cd7fb4470dc410c91eb3a8da2e156ee";
 
 export function SpotifyAuthProvider({ children }) {
@@ -44,7 +46,11 @@ export function SpotifyAuthProvider({ children }) {
       setUserAuthData(authData);
       // This cleans up the URL in the browser tab
       // removing the Spotify auth data so it doesn't impact the pageload useEffect
+      // URL before replaceState:
+      // localhost:5173/spotifycallback?code=laksjcnalcknjaslfvjkhsadlfvksndvlsd,mn
       window.history.replaceState(null, "Spotify Statsboards", "/");
+      // URL after replaceState:
+      // localhost:5173/
     }
     if (userAuthCode) {
       getAuthData();
@@ -61,7 +67,7 @@ export function SpotifyAuthProvider({ children }) {
     params.append("grant_type", "authorization_code");
     params.append("code", code);
     // params.append("redirect_uri", process.env.SOME_SPOTIFY_REDIRECT_URI);
-    params.append("redirect_uri", "http://localhost:5173/spotifycallback");
+    params.append("redirect_uri", import.meta.env.VITE_SPOTIFY_CALLBACK);
     params.append("code_verifier", verifier);
 
     // https://api.spotify.com/auth?client_id=oqeihrt90183yrt2ogknjs&code=
@@ -88,8 +94,8 @@ export function SpotifyAuthProvider({ children }) {
     const params = new URLSearchParams();
     params.append("client_id", clientId);
     params.append("response_type", "code");
-    params.append("redirect_uri", "http://localhost:5173/spotifycallback");
-    params.append("scope", "user-read-private user-read-email");
+    params.append("redirect_uri", import.meta.env.VITE_SPOTIFY_CALLBACK);
+    params.append("scope", "user-top-read user-read-private user-read-email");
     params.append("code_challenge_method", "S256");
     params.append("code_challenge", challenge);
 
